@@ -1,0 +1,126 @@
+{
+  "contract": "FibonacciBalance.sol",
+  "verified_vulnerabilities": [
+    {
+      "original_check": "arbitrary-send-eth",
+      "is_vulnerability": true,
+      "true_impact": "Medium",
+      "explanation": "The contract sends Ether to an arbitrary user based on the calculated Fibonacci number, which could lead to unintended fund transfers.",
+      "code_citation": "msg.sender.transfer(calculatedFibNumber * 1 ether);",
+      "remediation": "Implement proper access control and validation for the withdrawal function to prevent unauthorized or unintended transfers.",
+      "line_number": 32,
+      "confidence": "Confident",
+      "gatekeeper_note": "Code match confirmed."
+    },
+    {
+      "original_check": "controlled-delegatecall",
+      "is_vulnerability": true,
+      "true_impact": "High",
+      "explanation": "The contract uses delegatecall to a user-controlled function ID, which could lead to reentrancy attacks or other security vulnerabilities.",
+      "code_citation": "require(fibonacciLibrary.delegatecall(msg.data));",
+      "remediation": "Use a secure and validated function ID for delegatecall, and consider implementing reentrancy protection mechanisms.",
+      "line_number": 38,
+      "confidence": "Confident",
+      "gatekeeper_note": "Code match confirmed."
+    },
+    {
+      "original_check": "missing-zero-check",
+      "is_vulnerability": true,
+      "true_impact": "Medium",
+      "explanation": "The contract lacks a zero-check for the _fibonacciLibrary address, which could lead to unintended behavior or errors if a zero address is provided.",
+      "code_citation": "fibonacciLibrary = _fibonacciLibrary;",
+      "remediation": "Add a zero-check for the _fibonacciLibrary address to prevent potential issues.",
+      "line_number": 23,
+      "confidence": "Confident",
+      "gatekeeper_note": "Code match confirmed."
+    },
+    {
+      "original_check": "deprecated-standards",
+      "is_vulnerability": true,
+      "true_impact": "Informational",
+      "explanation": "The usage of 'sha3()' should be replaced with 'keccak256()'.",
+      "code_citation": "bytes4 constant fibSig = bytes4(sha3(\"setFibonacci(uint256)\"));",
+      "remediation": "Replace 'sha3()' with 'keccak256()'. For example: bytes4 constant fibSig = bytes4(keccak256(\"setFibonacci(uint256)\"));",
+      "line_number": 19,
+      "confidence": "Confident",
+      "gatekeeper_note": "Code match confirmed."
+    },
+    {
+      "original_check": "solc-version",
+      "is_vulnerability": true,
+      "true_impact": "Informational",
+      "explanation": "The Solidity version used is outdated and may contain known issues.",
+      "code_citation": "pragma solidity ^0.4.22;",
+      "remediation": "Update the Solidity version to a more recent one, if possible.",
+      "line_number": 8,
+      "confidence": "Confident",
+      "gatekeeper_note": "Code match confirmed."
+    },
+    {
+      "original_check": "low-level-calls",
+      "is_vulnerability": true,
+      "true_impact": "Informational",
+      "explanation": "The use of 'delegatecall' can pose a risk if not properly validated.",
+      "code_citation": "require(fibonacciLibrary.delegatecall(fibSig, withdrawalCounter));",
+      "remediation": "Ensure that the 'delegatecall' is properly validated and secured.",
+      "line_number": 31,
+      "confidence": "Confident",
+      "gatekeeper_note": "Code match confirmed."
+    },
+    {
+      "original_check": "low-level-calls",
+      "is_vulnerability": true,
+      "true_impact": "Medium",
+      "explanation": "The contract uses a low-level delegatecall to invoke a function from the FibonacciLib library. This could potentially lead to unintended behavior if the library is not properly secured.",
+      "code_citation": "require(fibonacciLibrary.delegatecall(msg.data))",
+      "remediation": "Use a secure library and validate the input data before invoking the delegatecall.",
+      "line_number": 38,
+      "confidence": "Confident",
+      "gatekeeper_note": "Code match confirmed."
+    },
+    {
+      "original_check": "naming-convention",
+      "is_vulnerability": false,
+      "true_impact": "Informational",
+      "explanation": "The constant fibSig does not follow the naming convention, but this is not a security vulnerability.",
+      "code_citation": "bytes4 constant fibSig = bytes4(sha3(\"setFibonacci(uint256)\"));",
+      "remediation": "Rename the constant to follow the naming convention, e.g., FIB_SIG.",
+      "line_number": 19,
+      "confidence": "Confident",
+      "gatekeeper_note": "Code match confirmed."
+    },
+    {
+      "original_check": "naming-convention",
+      "is_vulnerability": false,
+      "true_impact": "Informational",
+      "explanation": "The parameter _start does not follow the naming convention, but this is not a security vulnerability.",
+      "code_citation": "function setStart(uint _start) public",
+      "remediation": "Rename the parameter to follow the naming convention, e.g., _startValue.",
+      "line_number": 49,
+      "confidence": "Confident",
+      "gatekeeper_note": "Code match confirmed."
+    },
+    {
+      "original_check": "constable-states",
+      "is_vulnerability": false,
+      "true_impact": "Informational",
+      "explanation": "The variable start is not constant, but this is not a security vulnerability.",
+      "code_citation": "uint public start = 3;",
+      "remediation": "Consider making the variable constant if it does not need to be changed.",
+      "line_number": 16,
+      "confidence": "Confident",
+      "gatekeeper_note": "Code match confirmed."
+    },
+    {
+      "original_check": "constable-states",
+      "is_vulnerability": false,
+      "true_impact": "Informational",
+      "explanation": "The variable calculatedFibNumber is not constant, but this is not a security vulnerability.",
+      "code_citation": "uint public calculatedFibNumber;",
+      "remediation": "Consider making the variable constant if it does not need to be changed.",
+      "line_number": 14,
+      "confidence": "Confident",
+      "gatekeeper_note": "Code match confirmed."
+    }
+  ]
+}
