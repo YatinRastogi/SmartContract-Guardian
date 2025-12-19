@@ -165,6 +165,3 @@ smart-contract-guardian/
 
 ---
 
-Working Project Video:
-https://github.com/YatinRastogi/SmartContract-Guardian/issues/1
-
